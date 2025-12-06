@@ -1,0 +1,13 @@
+ <div class="header">
+      <span class="logo" (click)="goHome()">JiraLite</span>
+
+      <nav *ngIf="auth.isLoggedIn()">
+        <a routerLink="/boards" routerLinkActive="active">Boards</a>
+        <a *ngIf="auth.hasRole('ADMIN')" routerLink="/admin" routerLinkActive="active">Admin</a>
+      </nav>
+
+      <span class="user-info" *ngIf="auth.isLoggedIn()">
+        {{ auth.getCurrentUser()?.name }}
+        <button (click)="logout()">Logout</button>
+      </span>
+    </div>

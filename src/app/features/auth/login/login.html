@@ -1,0 +1,31 @@
+<div class="login-container">
+  <h2>Login to Jira-Lite</h2>
+
+  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="form.email"
+        name="email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="form.password"
+        name="password"
+        required
+      />
+    </div>
+
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <button type="submit" [disabled]="!loginForm.form.valid">Login</button>
+  </form>
+</div>

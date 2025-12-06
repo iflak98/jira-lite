@@ -1,0 +1,58 @@
+<app-header></app-header>
+
+<div class="admin-container">
+  <h2>User Management</h2>
+
+  <div *ngFor="let user of users()" class="user-card">
+    <h3>{{ user.name }} ({{ user.roles }})</h3>
+
+    <div class="tasks">
+
+      <!-- TO DO -->
+      <div class="todo">
+        <h4>To Do</h4>
+        <ul>
+          <li *ngFor="let task of getUserTasks(user.id, 'todo')">
+            {{ task.title }} - {{ task.priority }}
+            <button (click)="markInProgress(user.id, task.id)">
+              Move to In Progress
+            </button>
+          </li>
+          <li *ngIf="getUserTasks(user.id, 'todo').length === 0">
+            No tasks
+          </li>
+        </ul>
+      </div>
+
+      <!-- IN PROGRESS ✅ -->
+      <div class="in-progress">
+        <h4>In Progress</h4>
+        <ul>
+          <li *ngFor="let task of getUserTasks(user.id, 'in-progress')">
+            {{ task.title }} - {{ task.priority }}
+            <button (click)="markAsDone(user.id, task.id)">
+              Mark as Done
+            </button>
+          </li>
+          <li *ngIf="getUserTasks(user.id, 'in-progress').length === 0">
+            No tasks
+          </li>
+        </ul>
+      </div>
+
+      <!-- DONE -->
+      <div class="done">
+        <h4>Done</h4>
+        <ul>
+          <li *ngFor="let task of getUserTasks(user.id, 'done')">
+            {{ task.title }} - {{ task.priority }}
+          </li>
+          <li *ngIf="getUserTasks(user.id, 'done').length === 0">
+            No tasks
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
