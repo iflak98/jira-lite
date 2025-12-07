@@ -1,40 +1,40 @@
 <app-header></app-header>
+
 <div class="board-container" *ngIf="selectedBoard()">
   <h2>{{ selectedBoard()?.title }}</h2>
 
-  <div class="lists">
-    <!-- Loop over lists -->
+  <div class="lists" cdkDropListGroup>
     <div
       class="list"
-      *ngFor="let list of lists()"
+      *ngFor="let list of lists(); trackBy: trackByList"
       cdkDropList
       [cdkDropListData]="list.cards"
       (cdkDropListDropped)="drop($event, list)"
     >
       <h3>{{ list.title }}</h3>
 
-      <!-- Loop over cards -->
-      <div
-  class="card"
-  *ngFor="let card of list.cards"
-  cdkDrag
-  [ngClass]="{
-    'high-priority': card.priority === 'HIGH',
-    'medium-priority': card.priority === 'MEDIUM',
-    'low-priority': card.priority === 'LOW'
-  }"
->
-  <strong>{{ card.title }}</strong>
-  <br />
-  <small>{{ card.priority }}</small>
-  <p>{{ card.createdAt }}</p>
-</div>
-
+      <!-- ✅ Cards container -->
+      <div class="cards">
+        <div
+          class="card"
+          *ngFor="let card of list.cards; trackBy: trackByCard"
+          cdkDrag
+          [cdkDragData]="card"
+          [ngClass]="{
+            'high-priority': card.priority === 'HIGH',
+            'medium-priority': card.priority === 'MEDIUM',
+            'low-priority': card.priority === 'LOW'
+          }"
+        >
+          <strong>{{ card.title }}</strong>
+          <small>{{ card.priority }}</small>
+          <p>{{ card.createdAt }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Optional: display message if no board selected -->
 <div *ngIf="!selectedBoard()">
   <p>No board selected.</p>
 </div>

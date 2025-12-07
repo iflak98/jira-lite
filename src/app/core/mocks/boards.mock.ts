@@ -1,6 +1,7 @@
 import { Board } from '../../shared/models/board.model';
 
 export const BOARDS_MOCK: Board[] = [
+  /* ===================== BOARD 1 ===================== */
   {
     id: 1,
     name: 'Product Development',
@@ -21,6 +22,17 @@ export const BOARDS_MOCK: Board[] = [
             assigneeId: 'u2',
             createdAt: new Date().toISOString(),
             status: 'todo'
+          },
+          {
+            id: 'c2',
+            title: 'Create Signup Flow',
+            description: 'Signup API + UI screens',
+            priority: 'MEDIUM',
+            labels: ['Auth', 'API'],
+            dueDate: '2025-01-15',
+            assigneeId: 'u5',
+            createdAt: new Date().toISOString(),
+            status: 'todo'
           }
         ]
       },
@@ -29,11 +41,21 @@ export const BOARDS_MOCK: Board[] = [
         title: 'In Progress',
         cards: [
           {
-            id: 'c2',
+            id: 'c3',
             title: 'Implement Auth Guard',
             priority: 'MEDIUM',
             labels: ['Angular', 'Guards'],
             assigneeId: 'u2',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress'
+          },
+          {
+            id: 'c4',
+            title: 'JWT Token Handling',
+            description: 'Store & refresh JWT tokens',
+            priority: 'HIGH',
+            labels: ['Security', 'Auth'],
+            assigneeId: 'u6',
             createdAt: new Date().toISOString(),
             status: 'in-progress'
           }
@@ -42,8 +64,9 @@ export const BOARDS_MOCK: Board[] = [
       {
         id: 'l3',
         title: 'Done',
-        cards: [   {
-            id: 'c3',
+        cards: [
+          {
+            id: 'c5',
             title: 'Design Login Page',
             description: 'Created UI for login screen',
             priority: 'HIGH',
@@ -51,8 +74,122 @@ export const BOARDS_MOCK: Board[] = [
             dueDate: '2025-01-10',
             assigneeId: 'u2',
             createdAt: new Date().toISOString(),
+            status: 'done'
+          }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== BOARD 2 ===================== */
+  {
+    id: 2,
+    name: 'Sprint Planning',
+    title: 'Sprint Planning Board',
+    createdAt: new Date().toISOString(),
+    lists: [
+      {
+        id: 'l4',
+        title: 'To Do',
+        cards: [
+          {
+            id: 'c6',
+            title: 'Define Sprint Goals',
+            description: 'Finalize sprint objectives',
+            priority: 'HIGH',
+            labels: ['Sprint', 'Planning'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
             status: 'todo'
-          }]
+          },
+          {
+            id: 'c7',
+            title: 'Estimate Story Points',
+            priority: 'MEDIUM',
+            labels: ['Estimation'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'todo'
+          }
+        ]
+      },
+      {
+        id: 'l5',
+        title: 'In Progress',
+        cards: [
+          {
+            id: 'c8',
+            title: 'Prepare Sprint Backlog',
+            priority: 'LOW',
+            labels: ['Backlog'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress'
+          }
+        ]
+      },
+      {
+        id: 'l6',
+        title: 'Done',
+        cards: []
+      }
+    ]
+  },
+
+  /* ===================== BOARD 3 ===================== */
+  {
+    id: 3,
+    name: 'Bug Tracking',
+    title: 'Bug Tracking Board',
+    createdAt: new Date().toISOString(),
+    lists: [
+      {
+        id: 'l7',
+        title: 'To Do',
+        cards: [
+          {
+            id: 'c9',
+            title: 'Login crash on Safari',
+            description: 'App crashes during login on Safari browser',
+            priority: 'HIGH',
+            labels: ['Bug', 'Safari'],
+            assigneeId: 'u4',
+            createdAt: new Date().toISOString(),
+            status: 'todo'
+          }
+        ]
+      },
+      {
+        id: 'l8',
+        title: 'In Progress',
+        cards: [
+          {
+            id: 'c10',
+            title: 'Fix Drag & Drop UI glitch',
+            description: 'Card overlaps during drag',
+            priority: 'MEDIUM',
+            labels: ['UI', 'CDK'],
+            assigneeId: 'u5',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress'
+          }
+        ]
+      },
+      {
+        id: 'l9',
+        title: 'Done',
+        cards: [
+          {
+            id: 'c11',
+            title: 'Resolve API 401 Error',
+            description: 'Unauthorized issue fixed',
+            priority: 'LOW',
+            labels: ['API', 'Auth'],
+            assigneeId: 'u6',
+            createdAt: new Date().toISOString(),
+            status: 'done'
+          }
+        ]
       }
     ]
   }

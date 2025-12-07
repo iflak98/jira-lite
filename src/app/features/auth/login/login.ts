@@ -44,8 +44,8 @@ export class Login {
     this.auth.login(user);
 
     // Navigate based on role
-    if (user.roles === 'ADMIN') {
-      this.router.navigate(['/admin']); // Admin dashboard
+    if (user.roles === 'ADMIN' || user.roles === 'MANAGER') {
+      this.router.navigate(['/admin']); // Admin/Manager dashboard
     } else {
       this.router.navigate(['/boards']); // Normal user boards
     }

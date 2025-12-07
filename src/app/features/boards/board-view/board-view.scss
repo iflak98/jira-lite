@@ -8,69 +8,103 @@
   .lists {
     display: flex;
     gap: 1rem;
-    align-items: flex-start;
+    align-items: stretch; /* ✅ tallest list sets height */
+  }
 
-    .list {
-      background: #f1f1f1;
-      border-radius: 0.5rem;
-      padding: 0.5rem;
-      min-width: 250px;
-      max-width: 250px;
+  .list {
+    background: #f1f1f1;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    /* ✅ Cards wrapper grows naturally */
+    .cards {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      min-height: 60px; /* keeps empty lists visible */
+      flex-grow: 1;
+    }
 
-      h3 {
-        text-align: center;
-        margin-bottom: 0.5rem;
+    /* ✅ CARD */
+    .card {
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      cursor: grab;
+      border-left: 6px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       }
 
-      .card {
-        padding: 0.5rem;
-        border-radius: 0.25rem;
-        background: white;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        cursor: grab;
-        border-left: 6px solid transparent;
-        transition: transform 0.2s ease, background 0.2s ease;
-
-        &:hover {
-          transform: translateY(-2px);
-        }
-
-        small {
-          font-weight: 600;
-          text-transform: uppercase;
-        }
+      &:active {
+        cursor: grabbing;
       }
 
-      /* ✅ PRIORITY COLORS */
-      .high-priority {
-        background: #ffe6e6;
-        border-left-color: #d32f2f;
-
-        small {
-          color: #d32f2f;
-        }
+      small {
+        display: block;
+        margin-top: 4px;
+        font-weight: 600;
+        text-transform: uppercase;
       }
+    }
 
-      .medium-priority {
-        background: #fff8e1;
-        border-left-color: #f9a825;
+    /* ✅ PRIORITY COLORS */
+    .high-priority {
+      background: #ffe6e6;
+      border-left-color: #d32f2f;
 
-        small {
-          color: #f9a825;
-        }
+      small {
+        color: #d32f2f;
       }
+    }
 
-      .low-priority {
-        background: #e8f5e9;
-        border-left-color: #388e3c;
+    .medium-priority {
+      background: #fff8e1;
+      border-left-color: #f9a825;
 
-        small {
-          color: #388e3c;
-        }
+      small {
+        color: #f9a825;
       }
+    }
+
+    .low-priority {
+      background: #e8f5e9;
+      border-left-color: #388e3c;
+
+      small {
+        color: #388e3c;
+      }
+    }
+
+    /* ✅ Drag preview */
+    .cdk-drag-preview {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+      border-radius: 0.5rem;
+    }
+
+    /* ✅ Placeholder keeps spacing correct */
+    .cdk-drag-placeholder {
+      opacity: 0.3;
+      border-radius: 0.5rem;
+      height: 72px;
+      background: #ccc;
+    }
+
+    .cdk-drag-animating {
+      transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     }
   }
 }
