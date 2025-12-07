@@ -15,7 +15,6 @@
           <li *ngFor="let task of getUserTasks(user.id, 'todo')">
             {{ task.title }} - {{ task.priority }}
             <button (click)="markInProgress(user.id, task.id)">
-                {{task.status}}
               Move to In Progress
             </button>
           </li>
