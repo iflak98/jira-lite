@@ -1,4 +1,4 @@
-<div class="login-container">
+<div class="login-container" [class.wide]="showMockUsers">
   <h2>Login to Jira-Lite</h2>
 
   <form (ngSubmit)="login()" #loginForm="ngForm">
@@ -28,4 +28,38 @@
 
     <button type="submit" [disabled]="!loginForm.form.valid">Login</button>
   </form>
+
+  <div class="mock-users-section">
+    <button type="button" (click)="toggleMockUsers()" class="toggle-btn">
+      {{ showMockUsers ? 'Hide' : 'Show' }} Mock Users
+    </button>
+
+    <div *ngIf="showMockUsers" class="mock-users-list">
+      <h3>Demo Credentials</h3>
+      <table class="credentials-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of mockUsers">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.password }}</td>
+            <td><span class="role-badge" [ngClass]="'role-' + user.roles.toLowerCase()">{{ user.roles }}</span></td>
+            <td>
+              <button type="button" (click)="selectUser(user)" class="select-btn">
+                Use
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

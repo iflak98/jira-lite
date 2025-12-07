@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { USERS_MOCK } from '../../../core/mocks/users.mock';
 import { BoardService } from '../../../core/services/board.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Board } from '../../../shared/models/board.model';
 import { Card, Priority } from '../../../shared/models/card.model';
 import { HeaderComponent } from '../../../shared/ui/header/header';
@@ -19,14 +20,42 @@ export class UserManagementComponent implements OnInit {
 
   users = signal(USERS_MOCK);
   boards = signal<Board[]>([]);
+  currentUserRole = signal<string>('');
+  currentUserId = signal<string>('');
 
   // ✅ PRIORITIES MUST MATCH Card.priority TYPE
   priorities = signal<Priority[]>(['HIGH', 'MEDIUM', 'LOW']);
 
-  constructor(private boardService: BoardService) {}
+  constructor(private boardService: BoardService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.boards.set(this.boardService.getBoards());
+    const boards = this.boardService.getBoards();
+    this.boards.set(boards);
+
+    // Get current user role
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      this.currentUserRole.set(currentUser.roles);
+      this.currentUserId.set(currentUser.id);
+    }
+  }
+
+  // ✅ Check if card should be visible based on role and visibility
+  canSeeTask(card: Card): boolean {
+    const userRole = this.currentUserRole();
+    
+    // ADMIN can see all tasks
+    if (userRole === 'ADMIN') {
+      return true;
+    }
+    
+    // MANAGER cannot see admin-only tasks
+    const visibility = card.visibility || 'public';
+    if (visibility === 'admin-only') {
+      return false;
+    }
+    
+    return true;
   }
 
   // ✅ Update priority
@@ -47,7 +76,7 @@ export class UserManagementComponent implements OnInit {
     this.boardService.updateBoards(this.boards());
   }
 
-  // ✅ Get tasks by status
+  // ✅ Get tasks by status with visibility filtering
   getUserTasks(
     userId: string,
     status: 'todo' | 'in-progress' | 'done'
@@ -66,7 +95,7 @@ export class UserManagementComponent implements OnInit {
         if (!match) return;
 
         list.cards.forEach(card => {
-          if (card.assigneeId === userId) {
+          if (card.assigneeId === userId && this.canSeeTask(card)) {
             tasks.push(card);
           }
         });

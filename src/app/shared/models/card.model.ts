@@ -1,4 +1,5 @@
 export type Priority = 'LOW' | 'MEDIUM' | 'HIGH';
+export type CardVisibility = 'public' | 'admin-only' | 'assignee-only';
 
 export interface Card {
   id: string;
@@ -10,6 +11,7 @@ export interface Card {
   assigneeId?: string;
   createdAt?: string;
   status: 'todo' | 'in-progress' | 'done';
+  visibility?: CardVisibility; // 'public' (default), 'admin-only', 'assignee-only'
 }
 
 

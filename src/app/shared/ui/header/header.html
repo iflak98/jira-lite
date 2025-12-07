@@ -3,11 +3,17 @@
 
       <nav *ngIf="auth.isLoggedIn()">
         <a routerLink="/boards" routerLinkActive="active">Boards</a>
-        <a *ngIf="auth.hasRole('ADMIN')" routerLink="/admin" routerLinkActive="active">Admin</a>
+        <a *ngIf="auth.hasRole('ADMIN') || auth.hasRole('MANAGER')" routerLink="/admin" routerLinkActive="active">Admin</a>
       </nav>
 
-      <span class="user-info" *ngIf="auth.isLoggedIn()">
-        {{ auth.getCurrentUser()?.name }}
-        <button (click)="logout()">Logout</button>
-      </span>
+      <div class="user-info" *ngIf="auth.isLoggedIn()">
+        <div class="user-details">
+          <span class="user-name">{{ auth.getCurrentUser()?.name }}</span>
+          <span class="user-role" [style.background-color]="getRoleColor(auth.getCurrentUser()?.roles || '')">
+            {{ auth.getCurrentUser()?.roles }}
+          </span>
+        </div>
+        <button class="profile-btn" (click)="goToProfile()" title="View Profile">👤</button>
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      </div>
     </div>

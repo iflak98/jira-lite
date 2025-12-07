@@ -1,12 +1,26 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, Router } from '@angular/router';
+import { FooterComponent } from './shared/ui/footer/footer';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FooterComponent, CommonModule],
   template: `
-    <router-outlet></router-outlet>
-  `
+    <div class="app-wrapper">
+      <div class="app-content">
+        <router-outlet></router-outlet>
+      </div>
+      <app-footer *ngIf="!isLoginPage()"></app-footer>
+    </div>
+  `,
+  styleUrls: ['./app.scss']
 })
-export class App {}
+export class App {
+  private router = inject(Router);
+
+  isLoginPage(): boolean {
+    return this.router.url === '/login';
+  }
+}

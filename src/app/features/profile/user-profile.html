@@ -1,0 +1,110 @@
+<app-header></app-header>
+
+<div class="profile-container">
+  <div class="profile-card" *ngIf="user()">
+    <div class="profile-header">
+      <div class="avatar">
+        {{ user()!.name.charAt(0).toUpperCase() }}
+      </div>
+      <div class="header-info">
+        <h1>{{ user()!.name }}</h1>
+        <p class="email">{{ user()!.email }}</p>
+      </div>
+    </div>
+
+    <div class="profile-body">
+      <!-- User ID -->
+      <div class="detail-row">
+        <label>User ID:</label>
+        <span class="value">{{ user()!.id }}</span>
+      </div>
+
+      <!-- Email -->
+      <div class="detail-row">
+        <label>Email:</label>
+        <span class="value">{{ user()!.email }}</span>
+      </div>
+
+      <!-- Role Badge -->
+      <div class="detail-row">
+        <label>Role:</label>
+        <span 
+          class="role-badge" 
+          [style.background-color]="getRoleColor(user()!.roles)"
+        >
+          {{ user()!.roles }}
+        </span>
+      </div>
+
+      <!-- Role Description -->
+      <div class="detail-row full-width">
+        <label>Permissions:</label>
+        <p class="description">{{ getRoleDescription(user()!.roles) }}</p>
+      </div>
+
+      <!-- Account Info -->
+      <div class="detail-row full-width">
+        <label>Account Status:</label>
+        <p class="status active">✓ Active</p>
+      </div>
+    </div>
+
+    <!-- Your Permissions Section -->
+    <div class="permissions-section">
+      <h3>Your Permissions</h3>
+      <div class="permissions-list">
+        <div class="permission-item" [class.enabled]="canViewBoards()">
+          <span class="permission-icon">{{ canViewBoards() ? '✓' : '✗' }}</span>
+          <div class="permission-details">
+            <span class="permission-name">View Boards</span>
+            <span class="permission-desc">Access and view all project boards</span>
+          </div>
+        </div>
+
+        <div class="permission-item" [class.enabled]="canDragDropCards()">
+          <span class="permission-icon">{{ canDragDropCards() ? '✓' : '✗' }}</span>
+          <div class="permission-details">
+            <span class="permission-name">Drag & Drop Cards</span>
+            <span class="permission-desc">Move cards between board columns</span>
+          </div>
+        </div>
+
+        <div class="permission-item" [class.enabled]="canViewAllTasks()">
+          <span class="permission-icon">{{ canViewAllTasks() ? '✓' : '✗' }}</span>
+          <div class="permission-details">
+            <span class="permission-name">View All Tasks</span>
+            <span class="permission-desc">{{ getTaskViewDesc() }}</span>
+          </div>
+        </div>
+
+        <div class="permission-item" [class.enabled]="canViewAdminTasks()">
+          <span class="permission-icon">{{ canViewAdminTasks() ? '✓' : '✗' }}</span>
+          <div class="permission-details">
+            <span class="permission-name">View Admin-Only Tasks</span>
+            <span class="permission-desc">Access restricted admin tasks</span>
+          </div>
+        </div>
+
+        <div class="permission-item" [class.enabled]="canManageUsers()">
+          <span class="permission-icon">{{ canManageUsers() ? '✓' : '✗' }}</span>
+          <div class="permission-details">
+            <span class="permission-name">User Management</span>
+            <span class="permission-desc">Manage team members and assignments</span>
+          </div>
+        </div>
+
+        <div class="permission-item" [class.enabled]="canEditTaskPriority()">
+          <span class="permission-icon">{{ canEditTaskPriority() ? '✓' : '✗' }}</span>
+          <div class="permission-details">
+            <span class="permission-name">Edit Task Priority</span>
+            <span class="permission-desc">Change task priority and status</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!user()" class="loading">
+    <p>Loading user profile...</p>
+  </div>
+</div> 
+

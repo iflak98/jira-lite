@@ -33,6 +33,29 @@ export const BOARDS_MOCK: Board[] = [
             assigneeId: 'u5',
             createdAt: new Date().toISOString(),
             status: 'todo'
+          },
+          {
+            id: 'c-admin-1',
+            title: '[ADMIN] Review Security Audit',
+            description: 'Internal security review required',
+            priority: 'HIGH',
+            labels: ['Admin', 'Security'],
+            dueDate: '2025-01-20',
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'admin-only'
+          },
+          {
+            id: 'c-admin-2',
+            title: '[ADMIN] Update License Agreements',
+            description: 'Review and update license terms',
+            priority: 'MEDIUM',
+            labels: ['Admin', 'Legal'],
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'admin-only'
           }
         ]
       },
@@ -110,6 +133,17 @@ export const BOARDS_MOCK: Board[] = [
             assigneeId: 'u3',
             createdAt: new Date().toISOString(),
             status: 'todo'
+          },
+          {
+            id: 'c-admin-3',
+            title: '[ADMIN] Plan Q1 Roadmap',
+            description: 'Strategic planning for Q1 2026',
+            priority: 'HIGH',
+            labels: ['Admin', 'Strategy'],
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'admin-only'
           }
         ]
       },
@@ -156,6 +190,17 @@ export const BOARDS_MOCK: Board[] = [
             assigneeId: 'u4',
             createdAt: new Date().toISOString(),
             status: 'todo'
+          },
+          {
+            id: 'c-admin-4',
+            title: '[ADMIN] Investigate Data Breach Report',
+            description: 'Review and investigate potential security incident',
+            priority: 'HIGH',
+            labels: ['Admin', 'Security', 'Critical'],
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'admin-only'
           }
         ]
       },

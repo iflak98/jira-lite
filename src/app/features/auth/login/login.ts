@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -17,20 +17,38 @@ interface LoginForm {
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
 })
-export class Login {
+export class Login implements OnInit {
   form: LoginForm = {
     email: '',
     password: ''
   };
 
   error: string | null = null;
+  showMockUsers = false;
+
+  mockUsers: any[] = [];
 
   constructor(private auth: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    this.setUniqueRoleUsers();
+  }
+
+  private setUniqueRoleUsers() {
+    const roleMap = new Map<string, any>();
+
+    USERS_MOCK.forEach(user => {
+      if (!roleMap.has(user.roles)) {
+        roleMap.set(user.roles, user);
+      }
+    });
+
+    this.mockUsers = Array.from(roleMap.values());
+  }
 
   login() {
     this.error = null;
 
-    // Find user in mock
     const user = USERS_MOCK.find(
       u => u.email === this.form.email && u.password === this.form.password
     );
@@ -40,14 +58,21 @@ export class Login {
       return;
     }
 
-    // Login via AuthService
     this.auth.login(user);
 
-    // Navigate based on role
     if (user.roles === 'ADMIN' || user.roles === 'MANAGER') {
-      this.router.navigate(['/admin']); // Admin/Manager dashboard
+      this.router.navigate(['/admin']);
     } else {
-      this.router.navigate(['/boards']); // Normal user boards
+      this.router.navigate(['/boards']);
     }
+  }
+
+  toggleMockUsers() {
+    this.showMockUsers = !this.showMockUsers;
+  }
+
+  selectUser(user: any) {
+    this.form.email = user.email;
+    this.form.password = user.password;
   }
 }

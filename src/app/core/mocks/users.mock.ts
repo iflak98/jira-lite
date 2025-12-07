@@ -4,71 +4,71 @@ import { User } from '../../shared/models/user.model';
 export const USERS_MOCK: User[] = [
   {
     id: 'u1',
-    name: 'Admin User',
-    email: 'admin',
-    password: 'admin123',
+    name: 'Iflak',
+    email: 'iflak@jiralite.com',
+    password: 'iflak123',
     roles: 'ADMIN'
   },
   {
     id: 'u2',
     name: 'Normal User',
-    email: 'user',
+    email: 'user@jiralite.com',
     password: 'user123',
     roles: 'USER'
   },
   {
     id: 'u3',
     name: 'Project Manager',
-    email: 'pm',
+    email: 'pm@jiralite.com',
     password: 'pm123',
     roles: 'MANAGER'
   },
   {
     id: 'u4',
     name: 'QA Engineer',
-    email: 'qa',
+    email: 'qa@jiralite.com',
     password: 'qa123',
     roles: 'USER'
   },
   {
     id: 'u5',
     name: 'Frontend Developer',
-    email: 'frontend',
+    email: 'frontend@jiralite.com',
     password: 'frontend123',
     roles: 'USER'
   },
   {
     id: 'u6',
     name: 'Backend Developer',
-    email: 'backend',
+    email: 'backend@jiralite.com',
     password: 'backend123',
     roles: 'USER'
   },
   {
     id: 'u7',
     name: 'Viewer User',
-    email: 'viewer',
+    email: 'viewer@jiralite.com',
     password: 'viewer123',
     roles: 'VIEWER'
   },
   {
     id: 'u8',
     name: 'DevOps Engineer',
-    email: 'devops',
+    email: 'devops@jiralite.com',
     password: 'devops123',
     roles: 'USER'
   },
   {
     id: 'u9',
     name: 'Support User',
-    email: 'support',
+    email: 'support@jiralite.com',
     password: 'support123',
     roles: 'USER'
   },
   {
     id: 'u10',
     name: 'Super Admin',
-    email: 'superadmin',
+    email: 'superadmin@jiralite.com',
     password: 'superadmin123',
     roles: 'ADMIN'
   }

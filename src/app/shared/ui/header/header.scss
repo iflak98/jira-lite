@@ -1,39 +1,159 @@
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 1.5rem;
-      background-color: #1976d2;
-      color: white;
-      font-weight: bold;
-    }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+  gap: 1rem;
 
-    .logo {
-      cursor: pointer;
-    }
+  .logo {
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: opacity 0.2s ease;
 
-    nav a {
-      margin-right: 1rem;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  nav {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+
+    a {
       color: white;
       text-decoration: none;
       font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.25rem;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      &.active {
+        background: rgba(255, 255, 255, 0.25);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .user-details {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .user-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .user-role {
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: white;
+      }
     }
 
-    nav a.active {
-      text-decoration: underline;
+    .profile-btn {
+      background: none;
+      border: 2px solid white;
+      color: white;
+      padding: 0.35rem 0.6rem;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    .logout-btn {
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 0.25rem;
+      background-color: #dc3545;
+      color: white;
+      font-weight: 500;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background-color: #c82333;
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .header {
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+
+    .logo {
+      font-size: 1rem;
+      flex-basis: 100%;
+    }
+
+    nav {
+      flex-basis: 100%;
+      gap: 0.5rem;
+
+      a {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.85rem;
+      }
     }
 
     .user-info {
-      display: flex;
-      align-items: center;
-    }
+      flex-basis: 100%;
+      gap: 0.5rem;
 
-    button {
-      margin-left: 0.5rem;
-      padding: 0.25rem 0.5rem;
-      cursor: pointer;
-      border: none;
-      border-radius: 4px;
-      background-color: #f44336;
-      color: white;
+      .user-details {
+        gap: 0.35rem;
+
+        .user-name {
+          font-size: 0.8rem;
+        }
+
+        .user-role {
+          font-size: 0.65rem;
+          padding: 0.2rem 0.5rem;
+        }
+      }
+
+      .profile-btn {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      .logout-btn {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.85rem;
+      }
     }
+  }
+}
