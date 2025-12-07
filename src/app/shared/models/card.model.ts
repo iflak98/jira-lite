@@ -9,4 +9,7 @@ export interface Card {
   dueDate?: string;
   assigneeId?: string;
   createdAt?: string;
+  status: 'todo' | 'in-progress' | 'done';
 }
+
+

@@ -19,7 +19,8 @@ export const BOARDS_MOCK: Board[] = [
             labels: ['UI', 'Auth'],
             dueDate: '2025-01-10',
             assigneeId: 'u2',
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            status: 'todo'
           }
         ]
       },
@@ -33,14 +34,25 @@ export const BOARDS_MOCK: Board[] = [
             priority: 'MEDIUM',
             labels: ['Angular', 'Guards'],
             assigneeId: 'u2',
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            status: 'in-progress'
           }
         ]
       },
       {
         id: 'l3',
         title: 'Done',
-        cards: []
+        cards: [   {
+            id: 'c1',
+            title: 'Design Login Page',
+            description: 'Created UI for login screen',
+            priority: 'HIGH',
+            labels: ['UI', 'Auth'],
+            dueDate: '2025-01-10',
+            assigneeId: 'u2',
+            createdAt: new Date().toISOString(),
+            status: 'todo'
+          }]
       }
     ]
   }

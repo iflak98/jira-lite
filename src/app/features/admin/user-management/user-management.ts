@@ -55,12 +55,16 @@ export class UserManagementComponent implements OnInit {
   }
 
   // ✅ Move To Do → In Progress
-  markInProgress(userId: string, cardId: string) {
+  markInProgress(userId: string, cardId: string, ) {
     this.moveCard(userId, cardId, 'to do', 'in progress');
+  }
+    // ✅ Move To Do → In Progress
+  markInProgressfromDone(userId: string, cardId: string, ) {
+    this.moveCard(userId, cardId, 'done', 'in progress');
   }
 
   // ✅ Move In Progress → Done
-  markAsDone(userId: string, cardId: string) {
+  markAsDone(userId: string, cardId: string, ) {
     this.moveCard(userId, cardId, 'in progress', 'done');
   }
 

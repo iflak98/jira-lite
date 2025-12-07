@@ -33,19 +33,38 @@ export class BoardView implements OnInit {
     if (board) this.selectedBoard.set(board);
   }
 
-  drop(event: CdkDragDrop<Card[]>, list: List) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(list.cards, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
+ 
+  private getStatusFromList(title: string): 'todo' | 'in-progress' | 'done' {
+  const t = title.toLowerCase();
+  if (t.includes('progress')) return 'in-progress';
+  if (t.includes('done')) return 'done';
+  return 'todo';
+}
+drop(event: CdkDragDrop<Card[]>, targetList: List) {
+  if (event.previousContainer === event.container) {
+    // Reorder inside same list
+    moveItemInArray(
+      targetList.cards,
+      event.previousIndex,
+      event.currentIndex
+    );
+  } else {
+    // Move between lists
+    const movedCard = event.previousContainer.data[event.previousIndex];
 
-    // Update the boards in service
-    this.boardService.updateBoards(this.boards());
+    transferArrayItem(
+      event.previousContainer.data,
+      targetList.cards,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    // ✅ Update card status based on new list
+    movedCard.status = this.getStatusFromList(targetList.title);
   }
+
+  // ✅ Persist updated boards
+  this.boardService.updateBoards(this.boards());
+}
+
 }
