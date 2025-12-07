@@ -15,7 +15,7 @@ export const BOARDS_MOCK: Board[] = [
             id: 'c1',
             title: 'Design Login Page',
             description: 'Create UI for login screen',
-            priority: 'HIGH',
+            priority: 'LOW',
             labels: ['UI', 'Auth'],
             dueDate: '2025-01-10',
             assigneeId: 'u2',
@@ -43,7 +43,7 @@ export const BOARDS_MOCK: Board[] = [
         id: 'l3',
         title: 'Done',
         cards: [   {
-            id: 'c1',
+            id: 'c3',
             title: 'Design Login Page',
             description: 'Created UI for login screen',
             priority: 'HIGH',

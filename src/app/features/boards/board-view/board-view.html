@@ -15,15 +15,21 @@
 
       <!-- Loop over cards -->
       <div
-        class="card"
-        *ngFor="let card of list.cards"
-        cdkDrag
-      >
-        <strong>{{ card.title }}</strong>
-        <br>
-        <small>{{ card.priority }}</small>
-        <p>{{ card.createdAt }}</p>
-      </div>
+  class="card"
+  *ngFor="let card of list.cards"
+  cdkDrag
+  [ngClass]="{
+    'high-priority': card.priority === 'HIGH',
+    'medium-priority': card.priority === 'MEDIUM',
+    'low-priority': card.priority === 'LOW'
+  }"
+>
+  <strong>{{ card.title }}</strong>
+  <br />
+  <small>{{ card.priority }}</small>
+  <p>{{ card.createdAt }}</p>
+</div>
+
     </div>
   </div>
 </div>
