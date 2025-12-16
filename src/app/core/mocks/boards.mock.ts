@@ -23,6 +23,17 @@ export const BOARDS_MOCK: Board[] = [
             status: 'todo',
             visibility: 'assignee-only'
           },
+           {
+            id: 'c1',
+            title: 'Design Login Page',
+            description: 'Create UI for login screen',
+            priority: 'LOW',
+            labels: ['UI', 'Auth'],
+            assigneeId: 'u10',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'admin-only'
+          },
           {
             id: 'c2',
             title: 'Create Signup Flow',
@@ -99,6 +110,26 @@ export const BOARDS_MOCK: Board[] = [
             createdAt: new Date().toISOString(),
             status: 'in-progress',
             visibility: 'assignee-only'
+          },
+           {
+            id: 'c4',
+            title: 'NO task required',
+            priority: 'LOW',
+            labels: ['NA', 'NO'],
+            assigneeId: 'u7',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+           {
+            id: 'c4',
+            title: 'JWT Token Handling',
+            priority: 'HIGH',
+            labels: ['Security', 'Auth'],
+            assigneeId: 'u10',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'admin-only'
           },
           {
             id: 'c13',

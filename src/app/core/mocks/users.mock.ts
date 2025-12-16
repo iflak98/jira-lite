@@ -67,9 +67,9 @@ export const USERS_MOCK: User[] = [
   },
   {
     id: 'u10',
-    name: 'Super Admin',
-    email: 'superadmin@jiralite.com',
-    password: 'superadmin123',
+    name: 'Admin 2',
+    email: 'sadmin@jiralite.com',
+    password: 'sadmin123',
     roles: 'ADMIN'
   }
 ];

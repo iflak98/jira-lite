@@ -34,17 +34,23 @@ export class Login implements OnInit {
     this.setUniqueRoleUsers();
   }
 
-  private setUniqueRoleUsers() {
-    const roleMap = new Map<string, any>();
+private setUniqueRoleUsers() {
+  const roleMap = new Map<string, any>();
+  const admins: any[] = [];
 
-    USERS_MOCK.forEach(user => {
-      if (!roleMap.has(user.roles)) {
-        roleMap.set(user.roles, user);
-      }
-    });
+  USERS_MOCK.forEach(user => {
+    if (user.roles === 'ADMIN') {
+      // Include all admins
+      admins.push(user);
+    } else if (!roleMap.has(user.roles)) {
+      // Include only one user per other role
+      roleMap.set(user.roles, user);
+    }
+  });
 
-    this.mockUsers = Array.from(roleMap.values());
-  }
+  // Combine admins and one-per-role users
+  this.mockUsers = [...admins, ...Array.from(roleMap.values())];
+}
 
   login() {
     this.error = null;

@@ -24,25 +24,55 @@ type TaskWithMeta = Card & {
 export class UserManagementComponent implements OnInit {
 
   users = signal(USERS_MOCK);
+
+  /** Sorted users based on current user role */
+  sortedUsers = computed(() => {
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) return this.users();
+
+    const usersList = this.users().filter(user =>
+      currentUser.roles === 'ADMIN' || user.roles !== 'ADMIN'
+    );
+
+    if (currentUser.roles === 'ADMIN') {
+      const rolePriority: Record<string, number> = { ADMIN: 1, MANAGER: 2 };
+      return usersList.sort((a, b) => 
+        (rolePriority[a.roles] ?? 3) - (rolePriority[b.roles] ?? 3)
+      );
+    } else {
+      return usersList.sort((a, b) =>
+        a.id === currentUser.id ? -1 : b.id === currentUser.id ? 1 : 0
+      );
+    }
+  });
+
   boards = signal<Board[]>([]);
   currentUserRole = signal<string>('');
-
   priorities = signal<Priority[]>(['HIGH', 'MEDIUM', 'LOW']);
 
-  /** ✅ Derived once – NO loops */
+  /** Map of tasks per user and status */
   userTasks = computed(() => {
     const map = new Map<string, TaskWithMeta[]>();
+    const usersMap = new Map(this.users().map(u => [u.id, u.roles]));
+
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) return map;
 
     this.boards().forEach(board => {
       board.lists.forEach(list => {
-
-        const status =
-          list.title.toLowerCase() === 'to do' ? 'todo' :
-          list.title.toLowerCase() === 'in progress' ? 'in-progress' :
-          'done';
+        const status: 'todo' | 'in-progress' | 'done' =
+          list.title.toLowerCase() === 'to do'
+            ? 'todo'
+            : list.title.toLowerCase() === 'in progress'
+            ? 'in-progress'
+            : 'done';
 
         list.cards.forEach(card => {
-          if (!this.canSeeTask(card)) return;
+          if (!card.assigneeId) return;
+
+          const assignedUserRole = usersMap.get(card.assigneeId) ?? 'USER';
+
+          if (!this.canSeeTask(card, assignedUserRole, currentUser.id)) return;
 
           const task: TaskWithMeta = {
             ...card,
@@ -71,9 +101,25 @@ export class UserManagementComponent implements OnInit {
     if (user) this.currentUserRole.set(user.roles);
   }
 
-  canSeeTask(card: Card): boolean {
-    return this.currentUserRole() === 'ADMIN'
-      || (card.visibility ?? 'public') !== 'admin-only';
+  canSeeTask(card: Card, assignedUserRole: string, currentUserId: string): boolean {
+    if (!card.assigneeId) return false;
+
+    const currentUserRole = this.currentUserRole();
+
+    // User can always see their own tasks
+    if (card.assigneeId === currentUserId) return true;
+
+    // Admin cannot see other admins' tasks
+    if (currentUserRole === 'ADMIN' && assignedUserRole === 'ADMIN') return false;
+
+    // Admin can see all other tasks
+    if (currentUserRole === 'ADMIN') return true;
+
+    // Non-admin cannot see admin-only tasks
+    const visibility = card.visibility ?? 'assignee-only';
+    if (visibility === 'admin-only') return false;
+
+    return card.assigneeId === currentUserId;
   }
 
   getTasks(userId: string, status: TaskWithMeta['status']) {
@@ -95,7 +141,7 @@ export class UserManagementComponent implements OnInit {
     this.boardService.updateBoards(this.boards());
   }
 
-  /* ✅ MOVES */
+  /** Move task between statuses */
   markInProgress(cardId: string) {
     this.moveCard(cardId, 'to do', 'in progress');
   }

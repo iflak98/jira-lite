@@ -3,10 +3,10 @@
 <div class="board-list-container">
   <h2>Your Boards</h2>
 
-  <div class="boards">
+  <div class="boards" *ngFor="let board of boards()">
     <div
       class="board-card"
-      *ngFor="let board of boards()"
+      *ngIf="getAssignedTaskCount(board) > 0"
       (click)="openBoard(board)"
     >
       <h3>{{ board.title }}</h3>
@@ -20,4 +20,6 @@
       <p>Created at: {{ board.createdAt | date:'medium' }}</p>
     </div>
   </div>
+  <div *ngIf="boards().length === 0">
+    <p>No boards available. Create a new board to get started!</p>
 </div>
