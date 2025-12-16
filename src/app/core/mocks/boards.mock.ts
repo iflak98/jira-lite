@@ -18,10 +18,10 @@ export const BOARDS_MOCK: Board[] = [
             description: 'Create UI for login screen',
             priority: 'LOW',
             labels: ['UI', 'Auth'],
-            dueDate: '2025-01-10',
             assigneeId: 'u2',
             createdAt: new Date().toISOString(),
-            status: 'todo'
+            status: 'todo',
+            visibility: 'assignee-only'
           },
           {
             id: 'c2',
@@ -29,29 +29,46 @@ export const BOARDS_MOCK: Board[] = [
             description: 'Signup API + UI screens',
             priority: 'MEDIUM',
             labels: ['Auth', 'API'],
-            dueDate: '2025-01-15',
             assigneeId: 'u5',
             createdAt: new Date().toISOString(),
-            status: 'todo'
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c12',
+            title: 'Password Reset Flow',
+            priority: 'LOW',
+            labels: ['Auth'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c14',
+            title: 'Cross-browser Login Test',
+            priority: 'LOW',
+            labels: ['Testing'],
+            assigneeId: 'u4',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c16',
+            title: 'Auth Error Handling',
+            priority: 'MEDIUM',
+            labels: ['Auth'],
+            assigneeId: 'u6',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
           },
           {
             id: 'c-admin-1',
             title: '[ADMIN] Review Security Audit',
-            description: 'Internal security review required',
             priority: 'HIGH',
             labels: ['Admin', 'Security'],
-            dueDate: '2025-01-20',
-            assigneeId: 'u1',
-            createdAt: new Date().toISOString(),
-            status: 'todo',
-            visibility: 'admin-only'
-          },
-          {
-            id: 'c-admin-2',
-            title: '[ADMIN] Update License Agreements',
-            description: 'Review and update license terms',
-            priority: 'MEDIUM',
-            labels: ['Admin', 'Legal'],
             assigneeId: 'u1',
             createdAt: new Date().toISOString(),
             status: 'todo',
@@ -70,17 +87,48 @@ export const BOARDS_MOCK: Board[] = [
             labels: ['Angular', 'Guards'],
             assigneeId: 'u2',
             createdAt: new Date().toISOString(),
-            status: 'in-progress'
+            status: 'in-progress',
+            visibility: 'assignee-only'
           },
           {
             id: 'c4',
             title: 'JWT Token Handling',
-            description: 'Store & refresh JWT tokens',
             priority: 'HIGH',
             labels: ['Security', 'Auth'],
             assigneeId: 'u6',
             createdAt: new Date().toISOString(),
-            status: 'in-progress'
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c13',
+            title: 'Email Verification UI',
+            priority: 'MEDIUM',
+            labels: ['UI', 'Auth'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c15',
+            title: 'Accessibility Review',
+            priority: 'MEDIUM',
+            labels: ['A11y'],
+            assigneeId: 'u4',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c-admin-2',
+            title: '[ADMIN] Update License Agreements',
+            priority: 'MEDIUM',
+            labels: ['Admin', 'Legal'],
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'admin-only'
           }
         ]
       },
@@ -90,14 +138,13 @@ export const BOARDS_MOCK: Board[] = [
         cards: [
           {
             id: 'c5',
-            title: 'Design Login Page',
-            description: 'Created UI for login screen',
+            title: 'Login UI Completed',
             priority: 'HIGH',
-            labels: ['UI', 'Auth'],
-            dueDate: '2025-01-10',
-            assigneeId: 'u2',
+            labels: ['UI'],
+            assigneeId: 'u5',
             createdAt: new Date().toISOString(),
-            status: 'done'
+            status: 'done',
+            visibility: 'assignee-only'
           }
         ]
       }
@@ -118,12 +165,12 @@ export const BOARDS_MOCK: Board[] = [
           {
             id: 'c6',
             title: 'Define Sprint Goals',
-            description: 'Finalize sprint objectives',
             priority: 'HIGH',
-            labels: ['Sprint', 'Planning'],
+            labels: ['Sprint'],
             assigneeId: 'u3',
             createdAt: new Date().toISOString(),
-            status: 'todo'
+            status: 'todo',
+            visibility: 'assignee-only'
           },
           {
             id: 'c7',
@@ -132,12 +179,42 @@ export const BOARDS_MOCK: Board[] = [
             labels: ['Estimation'],
             assigneeId: 'u3',
             createdAt: new Date().toISOString(),
-            status: 'todo'
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c17',
+            title: 'Sprint Capacity Planning',
+            priority: 'MEDIUM',
+            labels: ['Sprint'],
+            assigneeId: 'u2',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c19',
+            title: 'Risk Assessment',
+            priority: 'MEDIUM',
+            labels: ['Sprint'],
+            assigneeId: 'u4',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c21',
+            title: 'Sprint Metrics Review',
+            priority: 'MEDIUM',
+            labels: ['Metrics'],
+            assigneeId: 'u5',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
           },
           {
             id: 'c-admin-3',
             title: '[ADMIN] Plan Q1 Roadmap',
-            description: 'Strategic planning for Q1 2026',
             priority: 'HIGH',
             labels: ['Admin', 'Strategy'],
             assigneeId: 'u1',
@@ -158,14 +235,56 @@ export const BOARDS_MOCK: Board[] = [
             labels: ['Backlog'],
             assigneeId: 'u3',
             createdAt: new Date().toISOString(),
-            status: 'in-progress'
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c18',
+            title: 'Dependency Review',
+            priority: 'LOW',
+            labels: ['Planning'],
+            assigneeId: 'u2',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c22',
+            title: 'Velocity Analysis',
+            priority: 'LOW',
+            labels: ['Metrics'],
+            assigneeId: 'u6',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
           }
         ]
       },
       {
         id: 'l6',
         title: 'Done',
-        cards: []
+        cards: [
+          {
+            id: 'c20',
+            title: 'Retrospective Notes',
+            priority: 'LOW',
+            labels: ['Retro'],
+            assigneeId: 'u4',
+            createdAt: new Date().toISOString(),
+            status: 'done',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c-admin-4',
+            title: '[ADMIN] Budget Review',
+            priority: 'MEDIUM',
+            labels: ['Admin'],
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'done',
+            visibility: 'admin-only'
+          }
+        ]
       }
     ]
   },
@@ -184,19 +303,48 @@ export const BOARDS_MOCK: Board[] = [
           {
             id: 'c9',
             title: 'Login crash on Safari',
-            description: 'App crashes during login on Safari browser',
             priority: 'HIGH',
-            labels: ['Bug', 'Safari'],
+            labels: ['Bug'],
             assigneeId: 'u4',
             createdAt: new Date().toISOString(),
-            status: 'todo'
+            status: 'todo',
+            visibility: 'assignee-only'
           },
           {
-            id: 'c-admin-4',
-            title: '[ADMIN] Investigate Data Breach Report',
-            description: 'Review and investigate potential security incident',
+            id: 'c23',
+            title: 'UI Freeze on Scroll',
+            priority: 'MEDIUM',
+            labels: ['Bug', 'UI'],
+            assigneeId: 'u2',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c25',
+            title: 'Broken Tooltip Styles',
+            priority: 'LOW',
+            labels: ['Bug', 'CSS'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c27',
+            title: 'Memory Leak Investigation',
             priority: 'HIGH',
-            labels: ['Admin', 'Security', 'Critical'],
+            labels: ['Bug', 'Performance'],
+            assigneeId: 'u5',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c-admin-5',
+            title: '[ADMIN] Investigate Security Incident',
+            priority: 'HIGH',
+            labels: ['Admin', 'Security'],
             assigneeId: 'u1',
             createdAt: new Date().toISOString(),
             status: 'todo',
@@ -211,12 +359,32 @@ export const BOARDS_MOCK: Board[] = [
           {
             id: 'c10',
             title: 'Fix Drag & Drop UI glitch',
-            description: 'Card overlaps during drag',
             priority: 'MEDIUM',
-            labels: ['UI', 'CDK'],
+            labels: ['Bug', 'CDK'],
             assigneeId: 'u5',
             createdAt: new Date().toISOString(),
-            status: 'in-progress'
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c24',
+            title: 'Session Timeout Bug',
+            priority: 'HIGH',
+            labels: ['Bug', 'Auth'],
+            assigneeId: 'u2',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c26',
+            title: 'Mobile Layout Issue',
+            priority: 'MEDIUM',
+            labels: ['Bug', 'Responsive'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
           }
         ]
       },
@@ -227,12 +395,22 @@ export const BOARDS_MOCK: Board[] = [
           {
             id: 'c11',
             title: 'Resolve API 401 Error',
-            description: 'Unauthorized issue fixed',
             priority: 'LOW',
-            labels: ['API', 'Auth'],
+            labels: ['API'],
             assigneeId: 'u6',
             createdAt: new Date().toISOString(),
-            status: 'done'
+            status: 'done',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c-admin-6',
+            title: '[ADMIN] Postmortem Report',
+            priority: 'MEDIUM',
+            labels: ['Admin'],
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'done',
+            visibility: 'admin-only'
           }
         ]
       }

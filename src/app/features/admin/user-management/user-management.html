@@ -8,103 +8,55 @@
 
     <div class="tasks">
 
-      
-      <div class="todo">
+      <!-- TODO -->
+      <div>
         <h4>To Do</h4>
         <ul>
-          <li
-            *ngFor="let task of getUserTasks(user.id, 'todo')"
-            class="task-card"
-            [ngClass]="{
-              'high-priority': task.priority === 'HIGH',
-              'medium-priority': task.priority === 'MEDIUM',
-              'low-priority': task.priority === 'LOW'
-            }"
-          >
-            <h3>{{ task.title }}</h3>
-            <strong>{{ task.priority }}</strong>
-            <br />
-            {{ task.description }}
-            <br />
-
-            <label>
-              Priority:
-              <select
-                [(ngModel)]="task.priority"
-                (ngModelChange)="updateTaskPriority(task.id, $event)"
-              >
-                <option *ngFor="let p of priorities()" [ngValue]="p">
-                  {{ p }}
-                </option>
+          <li *ngFor="let task of getTasks(user.id, 'todo'); trackBy: trackById">
+            <div class="task-card" [ngClass]="task.priority.toLowerCase() + '-priority'">
+              <h3>{{ task.title }}</h3>
+              <small>Board: {{ task.boardName }}</small>
+              <br>
+              <select [(ngModel)]="task.priority" (ngModelChange)="updateTaskPriority(task.id, $event)">
+                <option *ngFor="let p of priorities()" [value]="p">{{ p }}</option>
               </select>
-            </label>
-
-            <button (click)="markInProgress(user.id, task.id)">
-              Move to In Progress
-            </button>
+              <br>
+              <button (click)="markInProgress(task.id)">Move to In Progress</button>
+            </div>
           </li>
         </ul>
       </div>
 
-      <div class="in-progress">
+      <!-- IN PROGRESS -->
+      <div>
         <h4>In Progress</h4>
         <ul>
-          <li
-            *ngFor="let task of getUserTasks(user.id, 'in-progress')"
-            class="task-card"
-            [ngClass]="{
-              'high-priority': task.priority === 'HIGH',
-              'medium-priority': task.priority === 'MEDIUM',
-              'low-priority': task.priority === 'LOW'
-            }"
-          >
-            <h3>{{ task.title }}</h3>
-            <strong>{{ task.priority }}</strong>
-            <br />
-            {{ task.description }}
-            <br />
-
-            <label>
-              Priority:
-              <select
-                [(ngModel)]="task.priority"
-                (ngModelChange)="updateTaskPriority(task.id, $event)"
-              >
-                <option *ngFor="let p of priorities()" [ngValue]="p">
-                  {{ p }}
-                </option>
+          <li *ngFor="let task of getTasks(user.id, 'in-progress'); trackBy: trackById">
+            <div class="task-card" [ngClass]="task.priority.toLowerCase() + '-priority'">
+              <h3>{{ task.title }}</h3>
+              <small>Board: {{ task.boardName }}</small>
+              <br>
+              <select [(ngModel)]="task.priority" (ngModelChange)="updateTaskPriority(task.id, $event)">
+                <option *ngFor="let p of priorities()" [value]="p">{{ p }}</option>
               </select>
-            </label>
-
-            <button (click)="markAsDone(user.id, task.id)">
-              Mark as Done
-            </button>
+              <br>
+              <button (click)="markAsDone(task.id)">Mark Done</button>
+            </div>
           </li>
         </ul>
       </div>
 
-
-      <div class="done">
+      <!-- DONE -->
+      <div>
         <h4>Done</h4>
         <ul>
-          <li
-            *ngFor="let task of getUserTasks(user.id, 'done')"
-            class="task-card"
-            [ngClass]="{
-              'high-priority': task.priority === 'HIGH',
-              'medium-priority': task.priority === 'MEDIUM',
-              'low-priority': task.priority === 'LOW'
-            }"
-          >
-            <h3>{{ task.title }}</h3>
-            <strong>{{ task.priority }}</strong>
-            <br />
-            {{ task.description }}
-            <br />
-
-            <button (click)="markInProgressfromDone(user.id, task.id)">
-              Move to In Progress
-            </button>
+          <li *ngFor="let task of getTasks(user.id, 'done'); trackBy: trackById">
+            <div class="task-card" [ngClass]="task.priority.toLowerCase() + '-priority'">
+              <h3>{{ task.title }}</h3>
+              <small>Board: {{ task.boardName }}</small>
+              <br>
+              <button (click)="markInProgressfromDone(task.id)">Move to In Progress</button>
+            </div>
           </li>
         </ul>
       </div>

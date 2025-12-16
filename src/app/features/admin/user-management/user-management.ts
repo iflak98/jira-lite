@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { USERS_MOCK } from '../../../core/mocks/users.mock';
 import { BoardService } from '../../../core/services/board.service';
@@ -8,6 +8,11 @@ import { Card, Priority } from '../../../shared/models/card.model';
 import { HeaderComponent } from '../../../shared/ui/header/header';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
+type TaskWithMeta = Card & {
+  boardName: string;
+  status: 'todo' | 'in-progress' | 'done';
+};
 
 @Component({
   selector: 'app-user-management',
@@ -21,53 +26,67 @@ export class UserManagementComponent implements OnInit {
   users = signal(USERS_MOCK);
   boards = signal<Board[]>([]);
   currentUserRole = signal<string>('');
-  currentUserId = signal<string>('');
 
-  // ✅ PRIORITIES MUST MATCH Card.priority TYPE
   priorities = signal<Priority[]>(['HIGH', 'MEDIUM', 'LOW']);
 
-  constructor(private boardService: BoardService, private authService: AuthService) {}
+  /** ✅ Derived once – NO loops */
+  userTasks = computed(() => {
+    const map = new Map<string, TaskWithMeta[]>();
+
+    this.boards().forEach(board => {
+      board.lists.forEach(list => {
+
+        const status =
+          list.title.toLowerCase() === 'to do' ? 'todo' :
+          list.title.toLowerCase() === 'in progress' ? 'in-progress' :
+          'done';
+
+        list.cards.forEach(card => {
+          if (!this.canSeeTask(card)) return;
+
+          const task: TaskWithMeta = {
+            ...card,
+            boardName: board.name,
+            status
+          };
+
+          const key = `${card.assigneeId}-${status}`;
+          map.set(key, [...(map.get(key) || []), task]);
+        });
+      });
+    });
+
+    return map;
+  });
+
+  constructor(
+    private boardService: BoardService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    const boards = this.boardService.getBoards();
-    this.boards.set(boards);
+    this.boards.set(this.boardService.getBoards());
 
-    // Get current user role
-    const currentUser = this.authService.getCurrentUser();
-    if (currentUser) {
-      this.currentUserRole.set(currentUser.roles);
-      this.currentUserId.set(currentUser.id);
-    }
+    const user = this.authService.getCurrentUser();
+    if (user) this.currentUserRole.set(user.roles);
   }
 
-  // ✅ Check if card should be visible based on role and visibility
   canSeeTask(card: Card): boolean {
-    const userRole = this.currentUserRole();
-    
-    // ADMIN can see all tasks
-    if (userRole === 'ADMIN') {
-      return true;
-    }
-    
-    // MANAGER cannot see admin-only tasks
-    const visibility = card.visibility || 'public';
-    if (visibility === 'admin-only') {
-      return false;
-    }
-    
-    return true;
+    return this.currentUserRole() === 'ADMIN'
+      || (card.visibility ?? 'public') !== 'admin-only';
   }
 
-  // ✅ Update priority
+  getTasks(userId: string, status: TaskWithMeta['status']) {
+    return this.userTasks().get(`${userId}-${status}`) || [];
+  }
+
   updateTaskPriority(cardId: string, priority: Priority) {
     const boards = this.boards();
 
-    boards.forEach(board =>
-      board.lists.forEach(list =>
-        list.cards.forEach(card => {
-          if (card.id === cardId) {
-            card.priority = priority;
-          }
+    boards.forEach(b =>
+      b.lists.forEach(l =>
+        l.cards.forEach(c => {
+          if (c.id === cardId) c.priority = priority;
         })
       )
     );
@@ -76,73 +95,40 @@ export class UserManagementComponent implements OnInit {
     this.boardService.updateBoards(this.boards());
   }
 
-  // ✅ Get tasks by status with visibility filtering
-  getUserTasks(
-    userId: string,
-    status: 'todo' | 'in-progress' | 'done'
-  ): Card[] {
-    const tasks: Card[] = [];
-
-    this.boards().forEach(board => {
-      board.lists.forEach(list => {
-        const type = list.title.toLowerCase();
-
-        const match =
-          (status === 'todo' && type === 'to do') ||
-          (status === 'in-progress' && type === 'in progress') ||
-          (status === 'done' && type === 'done');
-
-        if (!match) return;
-
-        list.cards.forEach(card => {
-          if (card.assigneeId === userId && this.canSeeTask(card)) {
-            tasks.push(card);
-          }
-        });
-      });
-    });
-
-    return tasks;
+  /* ✅ MOVES */
+  markInProgress(cardId: string) {
+    this.moveCard(cardId, 'to do', 'in progress');
   }
 
-  // ✅ Status moves
-  markInProgress(userId: string, cardId: string) {
-    this.moveCard(userId, cardId, 'to do', 'in progress');
+  markAsDone(cardId: string) {
+    this.moveCard(cardId, 'in progress', 'done');
   }
 
-  markInProgressfromDone(userId: string, cardId: string) {
-    this.moveCard(userId, cardId, 'done', 'in progress');
+  markInProgressfromDone(cardId: string) {
+    this.moveCard(cardId, 'done', 'in progress');
   }
 
-  markAsDone(userId: string, cardId: string) {
-    this.moveCard(userId, cardId, 'in progress', 'done');
-  }
-
-  private moveCard(
-    userId: string,
-    cardId: string,
-    fromList: string,
-    toList: string
-  ) {
+  private moveCard(cardId: string, from: string, to: string) {
     const boards = this.boards();
 
     boards.forEach(board => {
-      const from = board.lists.find(l => l.title.toLowerCase() === fromList);
-      const to = board.lists.find(l => l.title.toLowerCase() === toList);
+      const fromList = board.lists.find(l => l.title.toLowerCase() === from);
+      const toList = board.lists.find(l => l.title.toLowerCase() === to);
 
-      if (!from || !to) return;
+      if (!fromList || !toList) return;
 
-      const index = from.cards.findIndex(
-        c => c.id === cardId && c.assigneeId === userId
-      );
-
-      if (index > -1) {
-        const [card] = from.cards.splice(index, 1);
-        to.cards.push(card);
+      const index = fromList.cards.findIndex(c => c.id === cardId);
+      if (index !== -1) {
+        const [card] = fromList.cards.splice(index, 1);
+        toList.cards.push(card);
       }
     });
 
     this.boards.set([...boards]);
     this.boardService.updateBoards(this.boards());
+  }
+
+  trackById(_: number, task: { id: string }) {
+    return task.id;
   }
 }
