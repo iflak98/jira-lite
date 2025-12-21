@@ -1,1 +1,87 @@
-<p>card works!</p>
+<app-header></app-header>
+
+<div class="card-container" *ngIf="cardDetail() as card">
+
+  <!-- Back -->
+  <button class="back-btn" (click)="goBack()">← Back</button>
+
+  <!-- Title -->
+  <h2 class="card-title">{{ card.title }}</h2>
+
+  <!-- Status -->
+  <div class="card-row">
+    <span class="card-label">Status</span>
+    <select
+      class="card-select"
+      [value]="card.status"
+      (change)="onStatusChange($any($event.target).value)">
+      <option value="todo">To Do</option>
+      <option value="in-progress">In Progress</option>
+      <option value="done">Done</option>
+    </select>
+  </div>
+
+  <!-- Assignee -->
+  <div class="card-row">
+    <span class="card-label">Assignee</span>
+    <select
+      class="card-select"
+      [value]="card.assigneeId"
+      (change)="onAssigneeChange($any($event.target).value)">
+      <option value="u1">Iflak</option>
+      <option value="u2">Normal User</option>
+      <option value="u3">Project Manager</option>
+    </select>
+  </div>
+
+  <!-- Description -->
+  <div class="card-description" *ngIf="card.description">
+    {{ card.description }}
+  </div>
+
+  <!-- Comments -->
+  <div class="card-comments">
+    <h4>Comments</h4>
+
+    <textarea
+      class="comment-box"
+      placeholder="Write a comment..."
+      [value]="commentInput()"
+      (input)="commentInput.set($any($event.target).value)">
+    </textarea>
+
+    <button
+      class="comment-btn"
+      [disabled]="!commentInput().trim()"
+      (click)="addComment()">
+      Add Comment
+    </button>
+
+    <!-- Comment List -->
+    <div
+      *ngFor="let c of card.comments ?? []"
+      class="comment">
+      <div class="comment-author">{{ c.authorId }}</div>
+      <div class="comment-text">{{ c.text }}</div>
+      <div class="comment-date">
+        {{ c.createdAt | date: 'short' }}
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <p class="no-comments" *ngIf="!(card.comments?.length)">
+      No comments yet.
+    </p>
+  </div>
+
+  <!-- Save -->
+  <div class="card-actions">
+    <button
+      class="save-btn"
+      [disabled]="!hasChanges()"
+      (click)="saveChanges()">
+      Save Changes
+    </button>
+  </div>
+
+</div>

@@ -42,7 +42,7 @@ export class BoardView implements OnInit {
     const boards = this.boardService.getBoards();
     this.boards.set(boards);
 
-    const boardId = Number(this.route.snapshot.paramMap.get('id'));
+    const boardId = this.route.snapshot.paramMap.get('id');
     const board = boards.find(b => b.id === boardId);
     if (board) this.selectedBoard.set(board);
 
@@ -75,7 +75,6 @@ export class BoardView implements OnInit {
     //   // Admin sees all cards in the list
     //   return list.cards;
     // }
-
     // Non-admin sees only their assigned tasks
     return list.cards.filter(card => card.assigneeId === userId);
   }
@@ -122,5 +121,11 @@ export class BoardView implements OnInit {
     if (value.includes('progress')) return 'in-progress';
     if (value.includes('done')) return 'done';
     return 'todo';
+  }
+  /** Open card details - placeholder for future implementation */
+  openCardDetails(card: Card) {
+    console.log('Open details for card:', card);
+    // Placeholder: Implement card detail view logic here
+    this.router.navigate(['/boards', this.selectedBoard()?.id, 'cards', card.id]);
   }
 }

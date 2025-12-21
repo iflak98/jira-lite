@@ -12,6 +12,14 @@ export interface Card {
   createdAt?: string;
   status: 'todo' | 'in-progress' | 'done';
   visibility?: CardVisibility; // 'public' (default), 'admin-only', 'assignee-only'
+  comments?: Comment[];
+}
+
+export interface Comment {
+  id: string;
+  text: string;
+  authorId: string;
+  createdAt: string;
 }
 
 
