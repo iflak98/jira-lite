@@ -3,6 +3,7 @@
 
       <nav *ngIf="auth.isLoggedIn()">
         <a routerLink="/boards" routerLinkActive="active">Boards</a>
+        <a *ngIf="auth.hasRole('ADMIN') || auth.hasRole('MANAGER')" routerLink="/admin/create-task" routerLinkActive="active">Create Task</a>
         <a *ngIf="auth.hasRole('ADMIN') || auth.hasRole('MANAGER')" routerLink="/admin" routerLinkActive="active">Admin</a>
       </nav>
 

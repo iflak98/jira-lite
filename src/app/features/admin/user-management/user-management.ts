@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { USERS_MOCK } from '../../../core/mocks/users.mock';
+import { UserService } from '../../../core/services/user.service';
 import { BoardService } from '../../../core/services/board.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Board } from '../../../shared/models/board.model';
@@ -23,21 +24,21 @@ type TaskWithMeta = Card & {
 })
 export class UserManagementComponent implements OnInit {
 
-  users = signal(USERS_MOCK);
+  users = signal<any[]>([]);
 
   /** Sorted users based on current user role */
   sortedUsers = computed(() => {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) return this.users();
-
-    const usersList = this.users().filter(user =>
-      currentUser.roles === 'ADMIN' || user.roles !== 'ADMIN'
+    // Filter out any null/undefined entries and normalize roles
+    const usersList = this.users().filter(u => !!u).filter(user =>
+      currentUser.roles === 'ADMIN' || (user.roles ?? 'USER') !== 'ADMIN'
     );
 
     if (currentUser.roles === 'ADMIN') {
       const rolePriority: Record<string, number> = { ADMIN: 1, MANAGER: 2 };
-      return usersList.sort((a, b) => 
-        (rolePriority[a.roles] ?? 3) - (rolePriority[b.roles] ?? 3)
+      return usersList.sort((a, b) =>
+        (rolePriority[a.roles ?? ''] ?? 3) - (rolePriority[b.roles ?? ''] ?? 3)
       );
     } else {
       return usersList.sort((a, b) =>
@@ -53,7 +54,7 @@ export class UserManagementComponent implements OnInit {
   /** Map of tasks per user and status */
   userTasks = computed(() => {
     const map = new Map<string, TaskWithMeta[]>();
-    const usersMap = new Map(this.users().map(u => [u.id, u.roles]));
+    const usersMap = new Map(this.users().filter(u => !!u).map(u => [u.id, u.roles]));
 
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) return map;
@@ -91,14 +92,21 @@ export class UserManagementComponent implements OnInit {
 
   constructor(
     private boardService: BoardService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
-    this.boards.set(this.boardService.getBoards());
+    this.boardService.boards$.subscribe(boards => {
+      this.boards.set(boards || []);
+    });
 
     const user = this.authService.getCurrentUser();
     if (user) this.currentUserRole.set(user.roles);
+    // subscribe to users from backend and populate the users signal
+    this.userService.users$.subscribe(u => {
+      this.users.set(u && u.length ? u : USERS_MOCK);
+    });
   }
 
   canSeeTask(card: Card, assignedUserRole: string, currentUserId: string): boolean {
@@ -169,6 +177,27 @@ export class UserManagementComponent implements OnInit {
         toList.cards.push(card);
       }
     });
+
+    this.boards.set([...boards]);
+    this.boardService.updateBoards(this.boards());
+  }
+
+  /** Delete a task by id across all boards */
+  deleteTask(cardId: string) {
+    if (!confirm('Are you sure you want to delete this task?')) return;
+
+    const boards = this.boards();
+    let removed = false;
+
+    boards.forEach(board => {
+      board.lists.forEach(list => {
+        const before = list.cards.length;
+        list.cards = list.cards.filter(c => c.id !== cardId);
+        if (list.cards.length !== before) removed = true;
+      });
+    });
+
+    if (!removed) return;
 
     this.boards.set([...boards]);
     this.boardService.updateBoards(this.boards());

@@ -28,9 +28,8 @@
       class="card-select"
       [value]="card.assigneeId"
       (change)="onAssigneeChange($any($event.target).value)">
-      <option value="u1">Iflak</option>
-      <option value="u2">Normal User</option>
-      <option value="u3">Project Manager</option>
+      <option value="">-- Unassigned --</option>
+      <option *ngFor="let u of users" [value]="u.id">{{ u.name }}</option>
     </select>
   </div>
 

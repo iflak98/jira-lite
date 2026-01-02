@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderComponent } from '../../../shared/ui/header/header';
 import { BoardService } from '../../../core/services/board.service';
 import { Card as CardModel } from '../../../shared/models/card.model';
+import { UserService } from '../../../core/services/user.service';
+import { USERS_MOCK } from '../../../core/mocks/users.mock';
 
 @Component({
   selector: 'app-card',
@@ -17,13 +19,15 @@ export class CardComponent implements OnInit {
   cardDetail = signal<CardModel | null>(null);
   commentInput = signal('');
   hasChanges = signal(false);
+  users: any[] = [];
 
   private boardId!: string;
 
   constructor(
     private boardService: BoardService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +41,17 @@ export class CardComponent implements OnInit {
       // clone to avoid mutating board directly
       this.cardDetail.set(structuredClone(card));
     }
+    // subscribe to users so we can show names in the assignee select
+    this.userService.users$.subscribe(u => {
+      this.users = u && u.length ? u : USERS_MOCK;
+
+      // if card exists, ensure assigneeName is present
+      const current = this.cardDetail();
+      if (current && current.assigneeId && !current.assigneeName) {
+        const found = this.users.find(x => x.id === current.assigneeId);
+        if (found) this.cardDetail.update(c => c ? { ...c, assigneeName: found.name } : c);
+      }
+    });
   }
 
   /* ---------------- STATUS ---------------- */
@@ -49,8 +64,9 @@ export class CardComponent implements OnInit {
 
   /* ---------------- ASSIGNEE ---------------- */
   onAssigneeChange(userId: string) {
+    const name = this.users.find(u => u.id === userId)?.name ?? null;
     this.cardDetail.update(card =>
-      card ? { ...card, assigneeId: userId } : card
+      card ? { ...card, assigneeId: userId, assigneeName: name } : card
     );
     this.hasChanges.set(true);
   }

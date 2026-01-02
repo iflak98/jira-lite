@@ -32,7 +32,7 @@
           >
             <strong>{{ card.title }}</strong>
             <small>{{ card.priority }}</small>
-            <p>{{ card.createdAt }}</p>
+            <p>{{ card.createdAt  | date}}</p>
           </div>
 
           <div
@@ -46,7 +46,7 @@
           >
             <strong>{{ card.title }}</strong>
             <small>{{ card.priority }}</small>
-            <p>{{ card.createdAt }}</p>
+            <p>{{ card.createdAt | date}}</p>
           </div>
         </ng-container>
       </div>

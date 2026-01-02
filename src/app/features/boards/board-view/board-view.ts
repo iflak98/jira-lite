@@ -39,12 +39,13 @@ export class BoardView implements OnInit {
   ) {}
 
   ngOnInit() {
-    const boards = this.boardService.getBoards();
-    this.boards.set(boards);
-
-    const boardId = this.route.snapshot.paramMap.get('id');
-    const board = boards.find(b => b.id === boardId);
-    if (board) this.selectedBoard.set(board);
+    // subscribe to boards stream so selectedBoard updates when boards finish loading
+    this.boardService.boards$.subscribe(boards => {
+      this.boards.set(boards || []);
+      const boardId = this.route.snapshot.paramMap.get('id');
+      const board = boards.find(b => b.id === boardId);
+      if (board) this.selectedBoard.set(board);
+    });
 
     const currentUser = this.authService.getCurrentUser();
     if (currentUser) {

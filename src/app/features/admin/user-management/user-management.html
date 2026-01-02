@@ -14,14 +14,32 @@
         <ul>
           <li *ngFor="let task of getTasks(user.id, 'todo'); trackBy: trackById">
             <div class="task-card" [ngClass]="task.priority.toLowerCase() + '-priority'">
-              <h3>{{ task.title }}</h3>
-              <small>Board: {{ task.boardName }}</small>
-              <br>
-              <select [(ngModel)]="task.priority" (ngModelChange)="updateTaskPriority(task.id, $event)">
-                <option *ngFor="let p of priorities()" [value]="p">{{ p }}</option>
-              </select>
-              <br>
-              <button (click)="markInProgress(task.id)">Move to In Progress</button>
+              <div class="task-details">
+                <h3>{{ task.title }}</h3>
+                <small>Board: {{ task.boardName }}</small>
+              </div>
+              <div class="task-controls">
+                <select [(ngModel)]="task.priority" (ngModelChange)="updateTaskPriority(task.id, $event)">
+                  <option *ngFor="let p of priorities()" [value]="p">{{ p }}</option>
+                </select>
+                <div class="actions">
+                  <button (click)="markInProgress(task.id)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Move to In Progress
+                  </button>
+                  <button class="delete-btn" (click)="deleteTask(task.id)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           </li>
         </ul>
@@ -33,14 +51,32 @@
         <ul>
           <li *ngFor="let task of getTasks(user.id, 'in-progress'); trackBy: trackById">
             <div class="task-card" [ngClass]="task.priority.toLowerCase() + '-priority'">
-              <h3>{{ task.title }}</h3>
-              <small>Board: {{ task.boardName }}</small>
-              <br>
-              <select [(ngModel)]="task.priority" (ngModelChange)="updateTaskPriority(task.id, $event)">
-                <option *ngFor="let p of priorities()" [value]="p">{{ p }}</option>
-              </select>
-              <br>
-              <button (click)="markAsDone(task.id)">Mark Done</button>
+              <div class="task-details">
+                <h3>{{ task.title }}</h3>
+                <small>Board: {{ task.boardName }}</small>
+              </div>
+              <div class="task-controls">
+                <select [(ngModel)]="task.priority" (ngModelChange)="updateTaskPriority(task.id, $event)">
+                  <option *ngFor="let p of priorities()" [value]="p">{{ p }}</option>
+                </select>
+                <div class="actions">
+                  <button (click)="markAsDone(task.id)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Mark Done
+                  </button>
+                  <button class="delete-btn" (click)="deleteTask(task.id)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           </li>
         </ul>
@@ -52,10 +88,29 @@
         <ul>
           <li *ngFor="let task of getTasks(user.id, 'done'); trackBy: trackById">
             <div class="task-card" [ngClass]="task.priority.toLowerCase() + '-priority'">
-              <h3>{{ task.title }}</h3>
-              <small>Board: {{ task.boardName }}</small>
-              <br>
-              <button (click)="markInProgressfromDone(task.id)">Move to In Progress</button>
+              <div class="task-details">
+                <h3>{{ task.title }}</h3>
+                <small>Board: {{ task.boardName }}</small>
+              </div>
+              <div class="task-controls">
+                <div class="actions">
+                  <button (click)="markInProgressfromDone(task.id)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Move to In Progress
+                  </button>
+                  <button class="delete-btn" (click)="deleteTask(task.id)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           </li>
         </ul>

@@ -1,0 +1,54 @@
+<div class="admin-container">   
+  <app-header></app-header>
+   <ng-toast [position]="TOAST_POSITIONS.TOP_RIGHT"></ng-toast>
+  <div class="create-task">
+    <h2>Create Task (Admin)</h2>
+
+    <form [formGroup]="form" (ngSubmit)="createCard()">
+      <label>Board
+        <select formControlName="boardId">
+          <option *ngFor="let b of boards" [value]="b.id">{{ b.name }}</option>
+        </select>
+      </label>
+
+      <label>List
+        <select formControlName="listId">
+          <option *ngFor="let l of lists" [value]="l.id">{{ l.title }}</option>
+        </select>
+      </label>
+
+      <label>Title
+        <input formControlName="title" />
+      </label>
+
+      <label>Description
+        <textarea formControlName="description"></textarea>
+      </label>
+
+      <label>Priority
+        <select formControlName="priority">
+          <option value="HIGH">HIGH</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="LOW">LOW</option>
+        </select>
+      </label>
+
+      <label>Labels (comma separated)
+        <input formControlName="labels" />
+      </label>
+
+      <label class="">
+        Assignee
+        <select formControlName="assigneeId" required>
+          <option value="">-- Select assignee --</option>
+          <option *ngFor="let u of users" [value]="u.id">{{ u.name }}</option>
+        </select>
+        <div class="error" *ngIf="form.get('assigneeId')?.invalid && form.get('assigneeId')?.touched">
+          Assignee is required.
+        </div>
+      </label>
+
+      <button type="submit" [disabled]="form.invalid">Create Task</button>
+    </form>
+  </div>
+</div>

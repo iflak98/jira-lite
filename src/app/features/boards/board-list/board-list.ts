@@ -24,8 +24,11 @@ export class BoardList {
     private authService: AuthService,
     private router: Router
   ) {
-    this.boards.set(this.boardService.getBoards());
-
+    // subscribe to the service's boards stream so we update when the async HTTP call returns
+    this.boardService.boards$.subscribe(boards => {
+      this.boards.set(boards || []);
+      console.log('Boards loaded in BoardList (subscribe):', this.boards(),"assigned task",this.getAssignedTaskCount);
+    });
     const user = this.authService.getCurrentUser();
     if (user) {
       this.currentUserId.set(user.id);

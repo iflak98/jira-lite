@@ -9,6 +9,7 @@ export interface Card {
   labels: string[];
   dueDate?: string;
   assigneeId?: string;
+  assigneeName?: string;
   createdAt?: string;
   status: 'todo' | 'in-progress' | 'done';
   visibility?: CardVisibility; // 'public' (default), 'admin-only', 'assignee-only'
