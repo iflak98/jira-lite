@@ -4,7 +4,6 @@ import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
-import { USERS_MOCK } from '../../../core/mocks/users.mock';
 
 interface LoginForm {
   email: string;
@@ -45,7 +44,7 @@ export class Login implements OnInit {
   const roleMap = new Map<string, any>();
   const admins: any[] = [];
   // prefer runtime `users` if loaded, otherwise fallback to static mock
-  const source = this.users.length ? this.users : USERS_MOCK;
+  const source = this.users.length ? this.users : [];
 
   source.forEach((user: any) => {
     // guard against null/undefined entries

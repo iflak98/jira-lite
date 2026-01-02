@@ -5,7 +5,6 @@ import { HeaderComponent } from '../../../shared/ui/header/header';
 import { BoardService } from '../../../core/services/board.service';
 import { Card as CardModel } from '../../../shared/models/card.model';
 import { UserService } from '../../../core/services/user.service';
-import { USERS_MOCK } from '../../../core/mocks/users.mock';
 
 @Component({
   selector: 'app-card',
@@ -43,7 +42,7 @@ export class CardComponent implements OnInit {
     }
     // subscribe to users so we can show names in the assignee select
     this.userService.users$.subscribe(u => {
-      this.users = u && u.length ? u : USERS_MOCK;
+      this.users = u && u.length ? u : [];
 
       // if card exists, ensure assigneeName is present
       const current = this.cardDetail();

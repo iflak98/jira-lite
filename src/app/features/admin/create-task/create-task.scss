@@ -73,6 +73,31 @@ button:disabled { background: #a5b4fc; cursor: not-allowed; opacity: 0.9; }
 	.create-task form { grid-template-columns: 1fr; }
 }
 
+/* further responsiveness and spacing tweaks */
+@media (max-width: 480px) {
+	.create-task {
+		margin: 16px;
+		gap: 12px;
+		padding: 12px;
+		border-radius: 10px;
+	}
+
+	.create-task h2 { font-size: 18px; }
+
+	.create-task form { gap: 10px; }
+
+	button {
+		width: 100%;
+		padding: 10px 12px;
+		font-size: 15px;
+	}
+}
+
+@media (min-width: 721px) and (max-width: 1000px) {
+	.create-task { max-width: 90%; margin: 24px auto; }
+	.create-task form { grid-template-columns: 1fr 1fr; gap: 10px; }
+}
+
 /* small utility spacing */
 .spaced { margin-top: 8px; }
 

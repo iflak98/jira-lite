@@ -22,11 +22,9 @@
       display: flex;
       gap: 1.5rem;
       flex-wrap: wrap;
-
-      > div {
-        flex: 1;
-        min-width: 200px;
-
+        > div {
+          flex: 1 1 300px;
+          min-width: 220px;
         h4 {
           margin-bottom: 1rem;
           font-size: 1rem;
@@ -44,6 +42,41 @@
         }
       }
     }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1000px) {
+    .tasks { gap: 1rem; }
+    .tasks > div { flex-basis: 48%; }
+  }
+
+  @media (max-width: 700px) {
+    padding: 1rem;
+    .tasks { flex-direction: column; gap: 0.75rem; }
+    .tasks > div { flex-basis: auto; min-width: auto; }
+
+    .user-card { padding: 1rem; }
+
+    .task-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .task-card .task-controls {
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-card .task-controls .actions { gap: 0.5rem; }
+
+    .task-card .task-controls select { margin-bottom: 0; }
+
+    .task-card .task-controls button { padding: 0.35rem 0.6rem; }
+
+    .task-card .task-details h3 { font-size: 1rem; }
   }
 }
 

@@ -1,6 +1,5 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { USERS_MOCK } from '../../../core/mocks/users.mock';
 import { UserService } from '../../../core/services/user.service';
 import { BoardService } from '../../../core/services/board.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -105,7 +104,7 @@ export class UserManagementComponent implements OnInit {
     if (user) this.currentUserRole.set(user.roles);
     // subscribe to users from backend and populate the users signal
     this.userService.users$.subscribe(u => {
-      this.users.set(u && u.length ? u : USERS_MOCK);
+      this.users.set(u && u.length ? u : []);
     });
   }
 
@@ -121,7 +120,7 @@ export class UserManagementComponent implements OnInit {
     if (currentUserRole === 'ADMIN' && assignedUserRole === 'ADMIN') return false;
 
     // Admin can see all other tasks
-    if (currentUserRole === 'ADMIN') return true;
+    if (currentUserRole === 'ADMIN' || currentUserRole==='MANAGER') return true;
 
     // Non-admin cannot see admin-only tasks
     const visibility = card.visibility ?? 'assignee-only';
