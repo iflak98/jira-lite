@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { Board } from '../../shared/models/board.model';
 import { Card } from '../../shared/models/card.model';
 import { UserService } from './user.service';
+import { environment } from './../../../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
 
-  private apiUrl = 'http://localhost:3000/boards';
+  private apiUrl = environment.apiBaseUrl + '/boards';
   private boardsSubject = new BehaviorSubject<Board[]>([]);
   boards$: Observable<Board[]> = this.boardsSubject.asObservable();
 

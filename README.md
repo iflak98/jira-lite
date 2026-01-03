@@ -71,28 +71,24 @@ src/
 
 ### Installation
 
-```bash
-# Clone the repository
-git clone <repository-url>
+## What’s new / Recent improvements
 
-# Navigate to the project directory
-cd jiralite
+- **Backend**
+  - Switched to dotenv + environment-variable driven configuration and robust MongoDB connection handling.
+  - Added module-scoped MongoClient with non-fatal attachment and a resilient mongoose connect (forces `dbName: 'jira_lite'`).
+  - `GET /users` now supports two storage shapes: a wrapper document (`{ users: [...] }`) or individual user documents. Also added `POST /users` to append into the wrapper or insert standalone users.
+  - Routes for boards are tolerant of two shapes (wrapper doc with `boards` array OR per-document boards).
+  - Improved error handling and readiness patterns (recommended to wire health checks to `/healthz`).
 
-# Install dependencies
-npm install
-```
+- **Frontend**
+  - New `UserService` that loads users from backend (`GET /users`) and exposes `users$` + `getUsersSnapshot()` for synchronous lookups.
+  - `BoardService` enriched with user data so `Card` objects include `assigneeName` for display while keeping `assigneeId` for permissions.
+  - Admin Create Task form (Reactive Forms) that persists tasks and stores both `assigneeId` and `assigneeName` on cards.
+  - Replaced many development `USERS_MOCK` usages with DB-driven `UserService` while keeping safe fallbacks.
+  - Fixed routing and TypeScript issues (explicit types added where needed to avoid build errors). Added runtime guards to handle null/undefined users.
+  - UI/UX tweaks: improved `Create Task` layout, responsive task cards, and user-management task actions (delete, move, priority updates) with icons.
 
-### Development Server
-
-```bash
-ng serve
-```
-
-Navigate to `http://localhost:4200/` in your browser. The app will reload automatically when you modify source files.
-
-### Demo Users
-
-The application includes mock users for easy testing:
+---
 
 | Email | Password | Role |
 |-------|----------|------|

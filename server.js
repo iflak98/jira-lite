@@ -205,10 +205,12 @@ if (attachDatabasePool) {
     mongoose.connect(mongooseUri, { dbName: 'jira_lite' })
         .then(() => {
             console.log('MongoDB connected (mongoose)');
-            app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+            // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
         })
         .catch((err) => {
             console.error('MongoDB connection error (mongoose):', err);
             process.exit(1);
         });
 })();
+module.exports = app;
+
