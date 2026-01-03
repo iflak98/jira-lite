@@ -11,7 +11,7 @@ import { environment } from './../../../../environment';
 })
 export class BoardService {
 
-  private apiUrl = environment.apiBaseUrl + '/boards';
+  private apiUrl = environment.apiBaseUrl + '/api/boards';
   private boardsSubject = new BehaviorSubject<Board[]>([]);
   boards$: Observable<Board[]> = this.boardsSubject.asObservable();
 

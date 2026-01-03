@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from './../../../../environment';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/users';
+//   private apiUrl = 'http://localhost:3000/users';
+    private apiUrl = environment.apiBaseUrl + '/api/users';
   private usersSubject = new BehaviorSubject<any[]>([]);
   users$: Observable<any[]> = this.usersSubject.asObservable();
 
