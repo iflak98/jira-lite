@@ -50,7 +50,7 @@ export class UserManagementComponent implements OnInit {
   currentUserRole = signal<string>('');
   priorities = signal<Priority[]>(['HIGH', 'MEDIUM', 'LOW']);
 
-  /** Map of tasks per user and status */
+ 
   userTasks = computed(() => {
     const map = new Map<string, TaskWithMeta[]>();
     const usersMap = new Map(this.users().filter(u => !!u).map(u => [u.id, u.roles]));

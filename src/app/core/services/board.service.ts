@@ -1,67 +1,81 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { Board } from '../../shared/models/board.model';
 import { Card } from '../../shared/models/card.model';
 import { UserService } from './user.service';
-import { environment } from './../../../../environment';
+import { BOARDS_MOCK } from '../mocks/boards.mock';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
 
-  private apiUrl = environment.apiBaseUrl + '/api/boards';
+  private readonly STORAGE_KEY = 'app_boards';
+
   private boardsSubject = new BehaviorSubject<Board[]>([]);
   boards$: Observable<Board[]> = this.boardsSubject.asObservable();
 
-  constructor(private http: HttpClient, private userService: UserService) {
+  constructor(private userService: UserService) {
     this.loadBoards();
 
-    // Re-enrich boards when user list updates (so assigneeName is populated)
+    // Re-enrich boards when users update
     this.userService.users$.subscribe(() => {
       const current = this.boardsSubject.getValue();
-      if (current && current.length) {
+      if (current?.length) {
         this.enrichBoardsWithUserNames(current);
+        this.persistBoards(current);
         this.boardsSubject.next([...current]);
       }
     });
   }
 
-  /* ---------------- BOARDS ---------------- */
+  /* ---------------- LOAD BOARDS ---------------- */
   loadBoards(): void {
-    this.http.get<Board[]>(this.apiUrl).subscribe(boards => {
-      // enrich cards with assigneeName when possible
-      this.enrichBoardsWithUserNames(boards);
-      this.boardsSubject.next(boards);
-    });
+    const savedBoards = localStorage.getItem(this.STORAGE_KEY);
+
+    let boards: Board[];
+
+    if (savedBoards) {
+      boards = JSON.parse(savedBoards);
+    } else {
+      boards = JSON.parse(JSON.stringify(BOARDS_MOCK)); // deep clone
+      this.persistBoards(boards);
+    }
+
+    this.enrichBoardsWithUserNames(boards);
+    this.boardsSubject.next(boards);
   }
 
+  /* ---------------- SAVE TO LOCAL STORAGE ---------------- */
+  private persistBoards(boards: Board[]): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(boards));
+  }
+
+  /* ---------------- ENRICH DATA ---------------- */
   private enrichBoardsWithUserNames(boards: Board[]) {
     const users = this.userService.getUsersSnapshot();
-    if (!users || !users.length) return;
+    if (!users?.length) return;
 
     boards.forEach(board => {
       board.lists.forEach(list => {
         list.cards.forEach(card => {
           if (card.assigneeId) {
-            const found = users.find(u => u && u.id === card.assigneeId);
-            card.assigneeName = card.assigneeName ?? (found ? found.name ?? null : null);
+            const found = users.find(u => u?.id === card.assigneeId);
+            card.assigneeName = found?.name ?? null;
           }
         });
       });
     });
   }
 
+  /* ---------------- GET BOARDS ---------------- */
   getBoards(): Board[] {
-    console.log('Getting boards:', this.boardsSubject.getValue());
     return this.boardsSubject.getValue();
   }
 
+  /* ---------------- UPDATE BOARDS ---------------- */
   updateBoards(boards: Board[]): void {
-    boards.forEach(board => {
-      this.http.put<Board>(`${this.apiUrl}/${board.id}`, board).subscribe();
-    });
+    this.persistBoards(boards);        // 🔥 save to localStorage
     this.boardsSubject.next([...boards]);
   }
 
@@ -84,11 +98,11 @@ export class BoardService {
     if (!board) return;
 
     // Remove card from all lists
-    for (const list of board.lists) {
+    board.lists.forEach(list => {
       list.cards = list.cards.filter(c => c.id !== updatedCard.id);
-    }
+    });
 
-    // Add card to correct list based on status
+    // Add to correct list
     const targetList = board.lists.find(
       l => this.getStatusFromList(l.title) === updatedCard.status
     );
@@ -97,7 +111,7 @@ export class BoardService {
       targetList.cards.push({ ...updatedCard });
     }
 
-    this.updateBoards(boards);
+    this.updateBoards(boards);  // persists automatically
   }
 
   /* ---------------- HELPERS ---------------- */

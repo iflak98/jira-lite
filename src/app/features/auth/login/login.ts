@@ -4,6 +4,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
+import { USERS_MOCK } from '../../../core/mocks/users.mock';
 
 interface LoginForm {
   email: string;
@@ -26,7 +27,7 @@ export class Login implements OnInit {
   error: string | null = null;
   showMockUsers = false;
 
-  mockUsers: any[] = [];
+  mockUsers: any[] = USERS_MOCK;
   users: any[] = [];
 
   constructor(private auth: AuthService, private router: Router, private userService: UserService) {}
@@ -34,7 +35,7 @@ export class Login implements OnInit {
   ngOnInit() {
     this.setUniqueRoleUsers();
     this.userService.users$.subscribe((u: any[]) => {
-      this.users = u || [];
+      this.users = u || this.mockUsers;
       // rebuild the mockUsers list (used in quick-select UI)
       this.setUniqueRoleUsers();
     });
@@ -44,7 +45,7 @@ export class Login implements OnInit {
   const roleMap = new Map<string, any>();
   const admins: any[] = [];
   // prefer runtime `users` if loaded, otherwise fallback to static mock
-  const source = this.users.length ? this.users : [];
+  const source = this.users.length ? this.users : this.mockUsers;
 
   source.forEach((user: any) => {
     // guard against null/undefined entries

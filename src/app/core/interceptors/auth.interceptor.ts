@@ -7,12 +7,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const user = authService.getCurrentUser();
 
-  // If user is not logged in, pass request as-is
+  
   if (!user) {
     return next(req);
   }
 
-  // Mock token – replace with real JWT later
+  
   const authToken = 'mock-jwt-token';
 
   const authReq = req.clone({
