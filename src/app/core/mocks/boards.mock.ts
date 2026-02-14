@@ -227,6 +227,38 @@ export const BOARDS_MOCK: Board[] = [
             visibility: 'assignee-only'
           }
         ]
+      },
+       {
+        id: 'l7',
+        title: 'In Progress',
+        cards: [
+          {
+            id: 'c9',
+            title: 'Login crash on Safari',
+            priority: 'HIGH',
+            labels: ['Bug'],
+            assigneeId: 'u4',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          }
+        ]
+      },
+       {
+        id: 'l7',
+        title: 'Done',
+        cards: [
+          {
+            id: 'c9',
+            title: 'Login crash on Safari',
+            priority: 'HIGH',
+            labels: ['Bug'],
+            assigneeId: 'u4',
+            createdAt: new Date().toISOString(),
+            status: 'todo',
+            visibility: 'assignee-only'
+          }
+        ]
       }
     ]
   }
