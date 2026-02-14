@@ -23,7 +23,7 @@ export const BOARDS_MOCK: Board[] = [
             visibility: 'assignee-only'
           },
           {
-            id: 'c1-admin',
+            id: 'c1',
             title: 'Design Login Page (Admin Review)',
             description: 'Admin validation of login UI',
             priority: 'LOW',
@@ -119,6 +119,86 @@ export const BOARDS_MOCK: Board[] = [
             assigneeId: 'u3',
             createdAt: new Date().toISOString(),
             status: 'todo',
+            visibility: 'assignee-only'
+          }, {
+            id: 'c3',
+            title: 'Implement Auth Guard',
+            priority: 'MEDIUM',
+            labels: ['Angular', 'Guards'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+        ]
+      },{
+        id: 'l2',
+        title: 'In Progress',
+        cards: [
+          {
+            id: 'c3',
+            title: 'Implement Auth Guard',
+            priority: 'MEDIUM',
+            labels: ['Angular', 'Guards'],
+            assigneeId: 'u2',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c4',
+            title: 'JWT Token Handling',
+            priority: 'HIGH',
+            labels: ['Security', 'Auth'],
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c4',
+            title: 'JWT Token Handling (Admin)',
+            priority: 'HIGH',
+            labels: ['Security', 'Auth'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'done',
+            visibility: 'assignee-only'
+          }
+        ]
+      },
+      {
+        id: 'l2',
+        title: 'Done',
+        cards: [
+          {
+            id: 'c3',
+            title: 'Implement Auth Guard',
+            priority: 'MEDIUM',
+            labels: ['Angular', 'Guards'],
+            assigneeId: 'u2',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c4',
+            title: 'JWT Token Handling',
+            priority: 'HIGH',
+            labels: ['Security', 'Auth'],
+            assigneeId: 'u1',
+            createdAt: new Date().toISOString(),
+            status: 'in-progress',
+            visibility: 'assignee-only'
+          },
+          {
+            id: 'c4',
+            title: 'JWT Token Handling (Admin)',
+            priority: 'HIGH',
+            labels: ['Security', 'Auth'],
+            assigneeId: 'u3',
+            createdAt: new Date().toISOString(),
+            status: 'done',
             visibility: 'assignee-only'
           }
         ]
