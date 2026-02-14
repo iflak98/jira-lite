@@ -229,7 +229,7 @@ export const BOARDS_MOCK: Board[] = [
         ]
       },
        {
-        id: 'l7',
+        id: 'l9',
         title: 'In Progress',
         cards: [
           {
@@ -237,15 +237,15 @@ export const BOARDS_MOCK: Board[] = [
             title: 'Login crash on Safari',
             priority: 'HIGH',
             labels: ['Bug'],
-            assigneeId: 'u4',
+            assigneeId: 'u3',
             createdAt: new Date().toISOString(),
-            status: 'todo',
+            status: 'in-progress',
             visibility: 'assignee-only'
           }
         ]
       },
        {
-        id: 'l7',
+        id: 'l8',
         title: 'Done',
         cards: [
           {
@@ -253,9 +253,9 @@ export const BOARDS_MOCK: Board[] = [
             title: 'Login crash on Safari',
             priority: 'HIGH',
             labels: ['Bug'],
-            assigneeId: 'u4',
+            assigneeId: 'u3',
             createdAt: new Date().toISOString(),
-            status: 'todo',
+            status: 'done',
             visibility: 'assignee-only'
           }
         ]
